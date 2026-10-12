@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria da gheno - Marostica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZF5LTEREPC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZF5LTEREPC');
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #faf7f2; color: #222; }
+
+        /* --- SEZIONI (GESTIONE VISIBILITÀ) --- */
+        .page-section {
+            display: none;
+            min-height: calc(100vh - 70px);
+        }
+        .page-section.active-section {
+            display: block;
+        }
+
+        /* --- STILI HOME SPLASH --- */
+        #home-screen {
+            background-color: #e53935;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .welcome-container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .logo-img-large {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
+            animation: fadeInDown 0.8s ease;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+        .nav-btn-home {
+            background-color: #ffffff;
+            color: #e53935;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        .nav-btn-home:hover {
+            background-color: #faf7f2;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER COMUNE --- */
+        header { background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .navbar { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
+        .nav-logo-img { height: 40px; width: auto; display: block; cursor: pointer; }
+        
+        .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #444; font-weight: 600; font-size: 0.95rem; transition: color 0.3s; cursor: pointer; }
+        .nav-links a:hover, .nav-links a.active { color: #e53935; }
+        .social-nav-btn { background-color: #e53935; color: white !important; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem !important; }
+        .social-nav-btn:hover { background-color: #c62828 !important; }
+
+        /* --- SEZIONE MENU --- */
+        .content-section { padding: 50px 20px; max-width: 1000px; margin: 0 auto; }
+        .content-section h2 { font-size: 2.2rem; font-weight: 800; color: #e53935; text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px; }
+        .content-section h2::after { content: ''; width: 50px; height: 4px; background-color: #e53935; display: block; margin: 10px auto 0; border-radius: 2px; }
+
+        .menu-category { margin-bottom: 45px; }
+        .menu-category h3 { font-size: 1.5rem; font-weight: 700; color: #222; margin-bottom: 20px; border-bottom: 2px solid #e53935; padding-bottom: 8px; text-transform: uppercase; }
+
+        .menu-item { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; border-bottom: 1px dotted #ddd; padding-bottom: 8px; }
+        .menu-item-info { max-width: 80%; }
+        .menu-item-name { font-weight: 700; font-size: 1.05rem; color: #111; }
+        .menu-item-ingredients { font-size: 0.88rem; color: #666; margin-top: 2px; }
+        .menu-item-price { font-weight: 800; color: #e53935; font-size: 1.1rem; }
+
+        .special-box { background-color: #e53935; color: white; padding: 30px; border-radius: 16px; margin-top: 35px; box-shadow: 0 10px 30px rgba(229, 57, 53, 0.2); }
+        .special-box h3 { color: white; border-bottom-color: rgba(255,255,255,0.4); }
+        .special-box .menu-item { border-bottom-color: rgba(255,255,255,0.25); }
+        .special-box .menu-item-name, .special-box .menu-item-ingredients, .special-box .menu-item-price { color: white; }
+
+        /* --- SEZIONE ORARI & DOVE SIAMO --- */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .info-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); text-align: center; border: 1px solid rgba(0,0,0,0.03); }
+        .info-card h3 { margin-bottom: 15px; color: #222; font-size: 1.25rem; font-weight: 700; }
+        .info-card p { color: #555; line-height: 1.6; font-size: 0.95rem; }
+
+        .hours-table { width: 100%; margin-top: 10px; border-collapse: collapse; text-align: left; }
+        .hours-table tr { border-bottom: 1px solid #eee; }
+        .hours-table tr:last-child { border-bottom: none; }
+        .hours-table td { padding: 7px 0; font-size: 0.9rem; color: #444; }
+        .hours-table td.day { font-weight: 600; text-transform: capitalize; }
+        .hours-table td.time { text-align: right; font-weight: 700; color: #e53935; }
+        .hours-table td.closed { text-align: right; font-weight: 600; color: #777; }
+
+        .btn-map { background-color: #e53935; color: white; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: inline-block; transition: background 0.3s; margin-top: 15px; }
+        .btn-map:hover { background-color: #c62828; }
+
+        /* --- SEZIONE CONTATTI --- */
+        .contact-section-wrapper { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; justify-content: center; min-height: 60vh; }
+        .phone-large { font-size: 2.3rem; color: #e53935; font-weight: 800; text-decoration: none; margin: 15px 0; display: inline-block; letter-spacing: -1px; }
+
+        .social-buttons-container { display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+        .social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .social-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        .btn-instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+        .btn-review { background-color: #4285F4; color: white; }
+
+        /* --- TASTO TORNA ALLA HOME IN FONDO ALLE PAGINE --- */
+        .back-home-container {
+            text-align: center;
+            margin-top: 45px;
+            margin-bottom: 10px;
+        }
+        .btn-back-home {
+            background-color: #222;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-back-home:hover {
+            background-color: #e53935;
+            transform: translateY(-2px);
+        }
+
+        /* --- FOOTER --- */
+        footer { background-color: #222; color: #aaa; text-align: center; padding: 35px 20px; font-size: 0.85rem; margin-top: 40px; }
+        footer p { margin-bottom: 5px; }
+
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HOME / SPLASH SCREEN -->
+    <div id="home-screen" class="page-section active-section">
+        <div class="welcome-container">
+            <img src="GHENO.png" alt="Logo Pizzeria da gheno" class="logo-img-large">
+            <div class="nav-buttons">
+                <a onclick="switchPage('menu')" class="nav-btn-home">Menu</a>
+                <a onclick="switchPage('orari')" class="nav-btn-home">Orari & Dove Siamo</a>
+                <a onclick="switchPage('contatti')" class="nav-btn-home">Contatti</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- WRAPPER PER LE PAGINE INTERNE (HEADER COMUNE) -->
+    <div id="main-site-wrapper" style="display: none;">
+        <header>
+            <nav class="navbar">
+                <a onclick="switchPage('home')"><img src="GHENO2.jpg" alt="Pizzeria da gheno" class="nav-logo-img"></a>
+                <ul class="nav-links">
+                    <li><a onclick="switchPage('home')" id="link-home">Home</a></li>
+                    <li><a onclick="switchPage('menu')" id="link-menu">Menu</a></li>
+                    <li><a onclick="switchPage('orari')" id="link-orari">Orari & Dove Siamo</a></li>
+                    <li><a onclick="switchPage('contatti')" id="link-contatti">Contatti</a></li>
+                    <li><a href="https://www.instagram.com/pizzeriadagheno/" target="_blank" class="social-nav-btn">Instagram</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- 2. MENU PAGE -->
+        <div id="menu-section" class="page-section content-section">
+            <h2>Il Nostro Menu</h2>
+            <div class="menu-category">
+                <h3>Classiche</h3>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">MARINARA</div><div class="menu-item-ingredients">Pomodoro, origano e aglio</div></div><div class="menu-item-price">4,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">MARGHERITA</div><div class="menu-item-ingredients">Pom, fiordilatte</div></div><div class="menu-item-price">6</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">BUFALA</div><div class="menu-item-ingredients">Pom, bufala e olio EVO</div></div><div class="menu-item-price">8,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">PROSCIUTTO</div><div class="menu-item-ingredients">Pom, fiordilatte, pr. cotto</div></div><div class="menu-item-price">7,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">PROSCIUTTO E FUNGHI</div><div class="menu-item-ingredients">Pom, fiordilatte, pr. cotto e champignon</div></div><div class="menu-item-price">8</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">CAPRICCIOSA</div><div class="menu-item-ingredients">Pom, fiordilatte, pr. cotto, champignon e carciofi</div></div><div class="menu-item-price">9</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">DIAVOLA</div><div class="menu-item-ingredients">Pom, fiordilatte e salamino piccante</div></div><div class="menu-item-price">7,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">4 FORMAGGI</div><div class="menu-item-ingredients">Pom, fiordilatte, gorgonzola, asiago e brie</div></div><div class="menu-item-price">8</div></div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Pizze Bianche</h3>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">MEDITERRANEA</div><div class="menu-item-ingredients">Fiordilatte, pom secchi, olive taggiasche, ric. affumicata, pesto di rucola</div></div><div class="menu-item-price">11</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">DECISA</div><div class="menu-item-ingredients">Fiordilatte, provola, salamino piccante e patate al forno</div></div><div class="menu-item-price">9</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">GUSTOSA</div><div class="menu-item-ingredients">Fiordilatte, porcini e lardo</div></div><div class="menu-item-price">9,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">NAPOLETANA</div><div class="menu-item-ingredients">Provola, friarielli e salsiccia</div></div><div class="menu-item-price">9,5</div></div>
+            </div>
+
+            <div class="menu-category">
+                <h3>Speciali</h3>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">IMMANCABILE</div><div class="menu-item-ingredients">Pom, fiordilatte, tonno, cipolla rossa, salamino piccante e gorgonzola</div></div><div class="menu-item-price">10</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">LA GIO</div><div class="menu-item-ingredients">Pom, fiordilatte, tosella, pomodorini, olive taggiasche e pesto di rucola</div></div><div class="menu-item-price">10,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">LIPARI</div><div class="menu-item-ingredients">Pom, bufala, tonno, pom secchi, capperi e origano (tutto dopo cottura)</div></div><div class="menu-item-price">11</div></div>
+            </div>
+
+            <div class="special-box">
+                <h3>Impasti Speciali e Variazioni</h3>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">CARBONE</div></div><div class="menu-item-price">1,5</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">SENZA GLUTINE</div></div><div class="menu-item-price">4</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">DOPPIA PASTA</div></div><div class="menu-item-price">1</div></div>
+                <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">CONSEGNA A DOMICILIO</div></div><div class="menu-item-price">Da 2 a 4</div></div>
+            </div>
+
+            <div class="back-home-container">
+                <a onclick="switchPage('home')" class="btn-back-home">← Torna alla Home</a>
+            </div>
+        </div>
+
+        <!-- 3. ORARI & DOVE SIAMO PAGE -->
+        <div id="orari-section" class="page-section content-section">
+            <h2>Informazioni, Orari e Dove Siamo</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🕒 Pizzeria Da Gheno</h3>
+                    <table class="hours-table">
+                        <tr><td class="day">martedì</td><td class="closed">Chiuso</td></tr>
+                        <tr><td class="day">mercoledì</td><td class="time">17–21:30</td></tr>
+                        <tr><td class="day">giovedì</td><td class="time">17–21:30</td></tr>
+                        <tr><td class="day">venerdì</td><td class="time">17–21:30</td></tr>
+                        <tr><td class="day">sabato</td><td class="time">17–21:30</td></tr>
+                        <tr><td class="day">domenica</td><td class="time">17–21:30</td></tr>
+                        <tr><td class="day">lunedì</td><td class="time">17–21:30</td></tr>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>🍕 Da Asporto</h3>
+                    <table class="hours-table">
+                        <tr><td class="day">martedì</td><td class="closed">Chiuso</td></tr>
+                        <tr><td class="day">mercoledì</td><td class="time">17:30–21:30</td></tr>
+                        <tr><td class="day">giovedì</td><td class="time">17:30–21:30</td></tr>
+                        <tr><td class="day">venerdì</td><td class="time">17:30–21:30</td></tr>
+                        <tr><td class="day">sabato</td><td class="time">17:30–21:30</td></tr>
+                        <tr><td class="day">domenica</td><td class="time">17:30–21:30</td></tr>
+                        <tr><td class="day">lunedì</td><td class="time">17:30–21:30</td></tr>
+                    </table>
+                </div>
+
+                <div class="info-card">
+                    <h3>🚗 Consegna a Domicilio</h3>
+                    <table class="hours-table">
+                        <tr><td class="day">martedì</td><td class="closed">Chiuso</td></tr>
+                        <tr><td class="day">mercoledì</td><td class="time">18:30–21</td></tr>
+                        <tr><td class="day">giovedì</td><td class="time">18:30–21</td></tr>
+                        <tr><td class="day">venerdì</td><td class="time">18:30–21</td></tr>
+                        <tr><td class="day">sabato</td><td class="time">18–21:30</td></tr>
+                        <tr><td class="day">domenica</td><td class="time">18–21</td></tr>
+                        <tr><td class="day">lunedì</td><td class="time">18:30–21</td></tr>
+                    </table>
+                </div>
+
+                <div class="info-card" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto; width: 100%;">
+                    <h3>📍 Dove Siamo</h3>
+                    <p style="margin-bottom: 10px;">
+                        <strong>Via Dott. Dottore Pietro Ragazzoni, 48, 36063 Marostica VI</strong><br>
+                        <span style="font-size: 0.85rem; color: #666;">(Operativi nei pressi di Pianezze e Marostica)</span>
+                    </p>
+                    <a href="https://www.google.com/maps/place/Pizzeria+Da+Gheno/@45.7394508,11.6382236,608m/data=!3m2!1e3!4b1!4m6!3m5!1s0x4778cfa54104e09b:0x29ffa47c44551e6!8m2!3d45.7394509!4d11.6430945!16s%2Fg%2F11d_crvg_6?entry=ttu" target="_blank" class="btn-map">Apri su Google Maps</a>
+                </div>
+            </div>
+
+            <div class="back-home-container">
+                <a onclick="switchPage('home')" class="btn-back-home">← Torna alla Home</a>
+            </div>
+        </div>
+
+        <!-- 4. CONTATTI PAGE -->
+        <div id="contatti-section" class="page-section">
+            <div class="content-section contact-section-wrapper">
+                <h2>Contatti</h2>
+                <div class="info-card">
+                    <p>Vuoi ordinare la tua pizza d'asporto o richiedere la consegna a domicilio? Chiamaci direttamente:</p>
+                    <a href="tel:3899550337" class="phone-large">📞 389 955 0337</a>
+                    <p style="font-size: 0.9rem; color: #777; margin-bottom: 25px;">Servizio d'asporto rapido e puntuale.</p>
+
+                    <div class="social-buttons-container">
+                        <a href="https://www.instagram.com/pizzeriadagheno/" target="_blank" class="social-btn btn-instagram">
+                            📸 Seguici su Instagram
+                        </a>
+                        <a href="https://www.google.com/maps/place/Pizzeria+Da+Gheno/@45.7394509,11.6405196,608m/data=!3m1!1e3!4m8!3m7!1s0x4778cfa54104e09b:0x29ffa47c44551e6!8m2!3d45.7394509!4d11.6430945!9m1!1b1!16s%2Fg%2F11d_crvg_6?entry=ttu&g_ep=EgoyMDI2MTAwNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="social-btn btn-review">
+                            ⭐ Lascia una Recensione
+                        </a>
+                    </div>
+                </div>
+
+                <div class="back-home-container">
+                    <a onclick="switchPage('home')" class="btn-back-home">← Torna alla Home</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Pizzeria da gheno - Tutti i diritti riservati.</p>
+            <p>Via Dott. Dottore Pietro Ragazzoni, 48 - Marostica (VI)</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT PER GESTIRE IL PASSAGGIO DA UNA "PAGINA" ALL'ALTRA -->
+    <script>
+        function switchPage(pageId) {
+            // Nascondi tutto
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('main-site-wrapper').style.display = 'none';
+            
+            // Rimuovi classe active da tutte le sezioni e link
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active-section'));
+            
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            if (pageId === 'home') {
+                document.getElementById('home-screen').style.display = 'flex';
+                document.getElementById('home-screen').classList.add('active-section');
+            } else {
+                document.getElementById('main-site-wrapper').style.display = 'block';
+                const targetSection = document.getElementById(pageId + '-section');
+                if (targetSection) {
+                    targetSection.classList.add('active-section');
+                }
+                const activeLink = document.getElementById('link-' + pageId);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
